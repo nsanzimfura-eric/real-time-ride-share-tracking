@@ -1,8 +1,10 @@
 import { useJsApiLoader, GoogleMap, Marker } from '@react-google-maps/api';
 import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
+import { useCallback, useState } from 'react';
 
 
 const GoogleMapComponent = () => {
+    const [map, setMap] = useState<google.maps.Map | null>(null)
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -26,26 +28,38 @@ const GoogleMapComponent = () => {
     //marker Icon
     const icon = {
         path: "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z",
-        fillColor: '#95D273',
+        fillColor: 'black',
         fillOpacity: 1.0,
         strokeWeight: 1,
-        strokeColor: '#8BD8DB',
+        strokeColor: 'black',
         scale: 2,
         anchor: new google.maps.Point(12, 24)
     };
+
+    //handle Map rendering behaviors
+
+    // const onLoad = useCallback((mapInstance: google.maps.Map) => {
+    //     const bounds = new window.google.maps.LatLngBounds(googleMapCenter);
+    //     mapInstance.fitBounds(bounds);
+    //     setMap(mapInstance);
+    // }, [googleMapCenter]);
+
+    // // const onUnmount = useCallback(() => {
+    // //     setMap(null);
+    // // }, []);
 
 
     return (
         <GoogleMap
             mapContainerStyle={containerStyle}
             center={googleMapCenter}
-            zoom={10}
+            zoom={15}
         // onLoad={onLoad}
         // onUnmount={onUnmount}
         >
             <Marker
                 position={googleMapCenter}
-                icon={icon} // Apply custom icon
+                icon={icon}
             />
         </GoogleMap>
     )

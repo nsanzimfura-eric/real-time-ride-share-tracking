@@ -1,0 +1,59 @@
+@import '../../styles/mixins.scss';
+@import '../../styles/variables.scss';
+
+.formMapData {
+    :global {
+        width: 100%;
+        background-color: transparent !important;
+        position: absolute;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        top: 0;
+        left: 0;
+        right: 0;
+
+        .wrapperData {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            justify-content: center;
+            background-color: $light;
+            padding: 30px;
+            border-radius: 10px;
+
+            div {
+                gap: 20px;
+
+                h3 {
+                    @include h3;
+                    color: $black;
+                }
+            }
+
+            span {
+                @include p;
+                color: $black;
+                opacity: 0.7;
+            }
+
+            button {
+                padding: 5px 10px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: $white;
+                cursor: pointer;
+                background-color: $warning;
+                background-image: none;
+                @include transition;
+
+                &:hover {
+                    background-color: $error;
+                }
+            }
+        }
+    }
+
+}
