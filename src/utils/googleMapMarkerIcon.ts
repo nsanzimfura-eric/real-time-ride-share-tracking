@@ -6,5 +6,5 @@ export const googleMapMarkerIcon = {
   strokeWeight: 1,
   strokeColor: "red",
   scale: 2,
-  anchor: new google.maps.Point(12, 24),
+  //   anchor: new google.maps.Point(12, 24),
 };

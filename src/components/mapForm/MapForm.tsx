@@ -17,14 +17,12 @@ const MapForm = (props: MapFormProps) => {
         initialValues,
         validationSchema,
         onSubmit: async (values) => {
-            console.log(values, 'test')
             setPlacesData({
                 origin: values.origin,
                 destination: values.destination,
             })
         },
     });
-
 
     return (
         <Container className={styles.mapForm}>

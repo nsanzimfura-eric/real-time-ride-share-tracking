@@ -33,10 +33,10 @@ const Home = () => {
             <div className='googleMapWrapper position-absolute bg-none'>
                 {/* if we have new places data we hide form and show Google map data */}
                 {placesData.destination && placesData.origin ?
-                    <FormMapData map={map} setMap={setMap} setPlacesData={setPlacesData} placesData={placesData} /> :
+                    <FormMapData map={map} setPlacesData={setPlacesData} placesData={placesData} /> :
                     <MapForm setPlacesData={setPlacesData} />
                 }
-                <GoogleMapComponent map={map} setMap={setMap} setPlacesData={setPlacesData} placesData={placesData} />
+                <GoogleMapComponent setMap={setMap} />
             </div>
         </div>
     )

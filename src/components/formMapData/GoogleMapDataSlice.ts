@@ -1,4 +1,3 @@
-// src/features/counter/counterSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ActiveSideNavBarLink {

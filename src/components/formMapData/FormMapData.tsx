@@ -1,13 +1,19 @@
 import { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import styles from './formMapaData.module.scss';
-import { MapProps } from '../googleMap/GoogleMap';
 import { googleMapCenter, initialGoogleMapState } from '../../utils/constants';
 import { useDispatch } from 'react-redux';
 import { setGoogleDirectionServices } from './GoogleMapDataSlice';
+import { PlacesDataInterface } from '../../pages/home/Home';
+import { MapFormProps } from '../mapForm/MapForm';
 
 
-const FormMapData = (props: MapProps) => {
+export interface GoogleMapsDataProps extends MapFormProps {
+    map: google.maps.Map | null;
+    placesData: PlacesDataInterface;
+}
+
+const FormMapData = (props: GoogleMapsDataProps) => {
     const { map, placesData, setPlacesData } = props;
     const [duration, setDuration] = useState<string>('');
     const [distance, setDistance] = useState<string>('');
@@ -41,7 +47,6 @@ const FormMapData = (props: MapProps) => {
         //eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    console.log(duration, distance, 'test')
     return (
         <Container className={styles.formMapData}>
             <div className='wrapperData d-flex flex-column'>
