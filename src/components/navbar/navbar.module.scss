@@ -1,0 +1,9 @@
+@import '../../styles/mixins.scss';
+@import '../../styles/variables.scss';
+
+.navbar {
+    :global {
+        background-color: $bg;
+        color: $black;
+    }
+}

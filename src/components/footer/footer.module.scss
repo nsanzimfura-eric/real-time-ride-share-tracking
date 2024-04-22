@@ -1,0 +1,9 @@
+@import '../../styles/mixins.scss';
+@import '../../styles/variables.scss';
+
+.footer {
+    :global {
+        background-color: $bg;
+        color: $black;
+    }
+}

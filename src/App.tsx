@@ -1,9 +1,16 @@
+import Footer from "./components/footer/Footer"
+import Navbar from "./components/navbar/NavBar"
+import Home from "./pages/home/Home";
+import './index.scss';
+
 function App() {
 
   return (
-    <>
-      <h1>app</h1>
-    </>
+    <main className="App">
+      <Navbar />
+      <Home />
+      <Footer />
+    </main>
   )
 }
 
