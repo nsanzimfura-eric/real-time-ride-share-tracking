@@ -1,0 +1,25 @@
+@import './styles/mixins.scss';
+@import './styles/variables.scss';
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  justify-content: center;
+  width: 100vw;
+  min-height: 100vh;
+  @include scrollbar;
+  background-color: $white;
+}
+
+button,
+a {
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: $poppinsMedium;
+}

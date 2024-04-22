@@ -1,0 +1,45 @@
+// import colors 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+//  colors
+
+$primary: #3C70D2;
+$blue: #3C70D2;
+$dark: #000000;
+$black: #000000;
+$light: #ffffff;
+$white: #ffffff;
+$bg: linear-gradient(to right, #8BD8DB, #8DD9A7, #95D273);
+$secondary: #e7f1ff;
+$border: #cacaca;
+$gray: #d3e2f4;
+
+// effects colors
+$success: #469607;
+$warning: #f7ac25;
+$error: #d50000;
+
+// fonts families
+
+$poppinsMedium: "Poppins", sans-serif;
+$poppinsSemiBold: "Poppins", sans-serif;
+$poppinsBold: "Poppins", sans-serif;
+
+//  measurements
+$sm: 480px;
+$small-device: 500px;
+$xxs: 320px;
+$xls: 600px;
+$xlsh: 500px;
+$xms: 375px;
+$md: 768px;
+$lgx: 1024px;
+$lg: 993px;
+$xlg: 1440px;
+$xxlg: 5000px;
+$headervh: 100vh;
+$header-padding: 10vw;
+$divider: calc(4 / 3);
+$xd-width: 1920;
+$xd-height: 1080;
+$width-of-container: calc(85px / $divider);
+$menu-height: 54px;

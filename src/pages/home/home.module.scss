@@ -1,0 +1,8 @@
+@import '../../styles/mixins.scss';
+@import '../../styles/variables.scss';
+
+.home {
+    :global {
+        background-color: transparent;
+    }
+}
