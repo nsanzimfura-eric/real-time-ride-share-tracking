@@ -37,10 +37,11 @@ const FormMapData = (props: GoogleMapsDataProps) => {
             destination,
             travelMode: google.maps.TravelMode.DRIVING,
         });
-        dispatch(setGoogleDirectionServices(results));
+        dispatch(setGoogleDirectionServices(JSON.stringify(results)));
         setDuration(results?.routes[0]?.legs[0]?.duration?.text || '');
         setDistance(results?.routes[0]?.legs[0]?.distance?.text || '');
     }
+
     useEffect(() => {
         //calculate distance
         void calculateDistance();

@@ -14,9 +14,11 @@ export const counterSlice = createSlice({
   reducers: {
     setGoogleDirectionServices: (
       state,
-      action: PayloadAction<google.maps.DirectionsResult | null>
+      action: PayloadAction<string | null>
     ) => {
-      state.googleDirectionServiceResults = action.payload;
+      state.googleDirectionServiceResults = action.payload
+        ? JSON.parse(action.payload)
+        : action.payload;
     },
   },
 });
