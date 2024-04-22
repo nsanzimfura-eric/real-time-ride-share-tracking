@@ -12,15 +12,16 @@ To run this project locally, you'll need to have Node.js and npm installed on yo
 
 ### Installation
 
-1. **Clone the repository and install the dependencies**
+1. **Clone the repository and install the dependencies:**
 
-   First, clone the GitHub repository to your local machine using the following command:
+   Clone the GitHub repository to your local machine using the following command:
 
    ```bash
    git clone https://github.com/nsanzimfura-eric/real-time-ride-share-tracking.git
    cd real-time-ride-share-tracking
-   npm i
-  ```
+   npm install
+
+   ```
 
 ### Running the Project
 
@@ -40,6 +41,7 @@ To run this project locally, you'll need to have Node.js and npm installed on yo
 
    ```bash
    npm run build
+   
   ```
 
   to build the app.
