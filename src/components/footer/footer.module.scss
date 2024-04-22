@@ -3,7 +3,45 @@
 
 .footer {
     :global {
-        background-color: $bg;
-        color: $black;
+        width: 100vw;
+        background-color: transparent;
+        background-image: $bg;
+        color: $dark;
+
+        a {
+            color: $dark;
+        }
+
+        div {
+            img {
+                width: 24px;
+                aspect-ratio: 1/1;
+                height: auto;
+                cursor: pointer;
+            }
+        }
+
+        .line {
+            border-color: $light;
+        }
+
+        .copyright {
+            color: $light;
+            font-size: 0.8em;
+            font-weight: 500;
+            gap: 30px;
+            flex-wrap: wrap;
+
+            a {
+                @include p;
+                color: $dark;
+                @include transition;
+                text-decoration: none;
+
+                &:hover {
+                    color: $light;
+                }
+            }
+        }
     }
 }

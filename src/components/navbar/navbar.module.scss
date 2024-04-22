@@ -3,7 +3,57 @@
 
 .navbar {
     :global {
-        background-color: $bg;
+        width: 100vw;
+        background-color: transparent;
+        background-image: $bg;
         color: $black;
+
+        a {
+            color: $dark;
+        }
+
+        .logo {
+            width: 90px;
+            aspect-ratio: 1/1;
+            height: auto;
+        }
+
+        .links {
+            min-width: 400px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .link {
+            @include p;
+            color: $dark;
+        }
+
+        .active {
+            font-weight: 900;
+        }
+
+        //change color border for the humburger icon
+        .navbar-toggler {
+            color: $light;
+            border-color: transparent;
+        }
+
+        //change bars color for the humberger icon
+        .navbar-toggler-icon {
+            background-image: url('../../../public/icons/bars.svg');
+        }
+
+        .togglerWrapper {
+            p {
+                font-weight: 900;
+                font-size: 1rem;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
     }
+
 }
