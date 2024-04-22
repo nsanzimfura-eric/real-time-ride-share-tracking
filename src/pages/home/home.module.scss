@@ -12,15 +12,7 @@
 
         .googleMapWrapper {
             inset: 0;
-            padding: 30px;
-
-            @include mq($xlg) {
-                padding: 20px;
-            }
-
-            @include mq($lg) {
-                padding: 10px;
-            }
+            padding: 0;
 
         }
     }
