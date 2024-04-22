@@ -3,7 +3,25 @@
 
 .home {
     :global {
-        background-color: transparent;
+        background-color: $secondary;
         flex-grow: 1;
+        position: relative;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+
+        .googleMapWrapper {
+            inset: 0;
+            padding: 30px;
+
+            @include mq($xlg) {
+                padding: 20px;
+            }
+
+            @include mq($lg) {
+                padding: 10px;
+            }
+
+        }
     }
 }
