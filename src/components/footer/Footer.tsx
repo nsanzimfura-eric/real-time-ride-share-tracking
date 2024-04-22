@@ -12,8 +12,8 @@ const Footer = () => {
                     <img src="/icons/important.svg" alt="Icon" />
                     <img src="/icons/bell.svg" alt="Icon" />
                 </div>
-                <hr className="my-3 line d-none d-sm-block" />
-                <span className="d-none d-sm-flex justify-content-center align-items-center copyright">© {year} <a href="https://nsanzimfura.web.app/" >Ride Share Tracker.™</a> All Rights Reserved.</span>
+                <hr className="my-3 line d-none d-md-block" />
+                <span className="d-none d-md-flex justify-content-center align-items-center copyright">© {year} <a href="https://nsanzimfura.web.app/" >Ride Share Tracker.™</a> All Rights Reserved.</span>
             </Container>
         </footer>
     );
