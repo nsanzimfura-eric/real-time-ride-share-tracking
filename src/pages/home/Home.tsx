@@ -31,7 +31,7 @@ const Home = () => {
     return isLoaded && (
         <div className={styles.home}>
             <div className='googleMapWrapper position-absolute bg-none'>
-                {/* if we have new places data we hide form and show map data */}
+                {/* if we have new places data we hide form and show Google map data */}
                 {placesData.destination && placesData.origin ?
                     <FormMapData map={map} setMap={setMap} setPlacesData={setPlacesData} placesData={placesData} /> :
                     <MapForm setPlacesData={setPlacesData} />
