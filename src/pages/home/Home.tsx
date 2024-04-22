@@ -1,6 +1,6 @@
 import FormMapData from '../../components/formMapData/FormMapData';
 import GoogleMapComponent from '../../components/googleMap/GoogleMap';
-import MapForm from '../../components/mapForm/MapForm';
+// import MapForm from '../../components/mapForm/MapForm';
 import styles from './home.module.scss';
 
 const Home = () => {

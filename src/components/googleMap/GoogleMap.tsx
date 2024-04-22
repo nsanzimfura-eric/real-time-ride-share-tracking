@@ -1,11 +1,7 @@
 import { useJsApiLoader, GoogleMap, Marker } from '@react-google-maps/api';
 import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
-import { useCallback, useState } from 'react';
-
 
 const GoogleMapComponent = () => {
-    const [map, setMap] = useState<google.maps.Map | null>(null)
-
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
