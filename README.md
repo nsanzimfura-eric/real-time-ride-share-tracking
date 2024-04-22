@@ -41,14 +41,14 @@ To run this project locally, you'll need to have Node.js and npm installed on yo
 
    ```bash
    npm run build
-   
+
   ```
 
   to build the app.
 
 ### License
 
-- Distributed under the MIT License.
+- Distributed under the [MIT License](https://github.com/git/git-scm.com/blob/main/MIT-LICENSE.txt).
 
 ### Acknowledgments
 
