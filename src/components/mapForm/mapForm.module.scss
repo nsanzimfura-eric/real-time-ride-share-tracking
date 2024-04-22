@@ -40,6 +40,11 @@
                 }
             }
 
+            small {
+                @include small;
+                color: $error;
+            }
+
             button {
                 padding: 5px 10px;
                 display: flex;
@@ -54,6 +59,10 @@
                 &:hover {
                     background-color: $success;
                 }
+            }
+
+            .errorWrapper {
+                height: 20px;
             }
         }
     }

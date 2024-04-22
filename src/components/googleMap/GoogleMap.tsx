@@ -1,20 +1,18 @@
-import { useJsApiLoader, GoogleMap, Marker } from '@react-google-maps/api';
-import LoadingSpinner from '../loadingSpinner/LoadingSpinner';
+import { GoogleMap, Marker } from '@react-google-maps/api';
+import { googleMapCenter } from '../../utils/constants';
+import { PlacesDataInterface } from '../../pages/home/Home';
 
-const GoogleMapComponent = () => {
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-    })
+export interface MapProps {
+    map: google.maps.Map | null;
+    setMap: React.Dispatch<React.SetStateAction<google.maps.Map | null>>;
+    setPlacesData: React.Dispatch<React.SetStateAction<PlacesDataInterface>>;
+    placesData?: PlacesDataInterface;
+}
 
-    //show loading spinner
-    if (!isLoaded) return <LoadingSpinner />
+const GoogleMapComponent = (props: MapProps) => {
+    const { map, setMap } = props;
+    console.log(map)
 
-    // the center is at Kigali Conventional center
-    const googleMapCenter = {
-        lat: -1.9538216736362783,
-        lng: 30.092569559416436,
-    }
     // const styles
     const containerStyle = {
         width: "100%",
@@ -32,25 +30,12 @@ const GoogleMapComponent = () => {
         anchor: new google.maps.Point(12, 24)
     };
 
-    //handle Map rendering behaviors
-
-    // const onLoad = useCallback((mapInstance: google.maps.Map) => {
-    //     const bounds = new window.google.maps.LatLngBounds(googleMapCenter);
-    //     mapInstance.fitBounds(bounds);
-    //     setMap(mapInstance);
-    // }, [googleMapCenter]);
-
-    // // const onUnmount = useCallback(() => {
-    // //     setMap(null);
-    // // }, []);
-
-
     return (
         <GoogleMap
             mapContainerStyle={containerStyle}
             center={googleMapCenter}
             zoom={15}
-        // onLoad={onLoad}
+            onLoad={(mapInstance: google.maps.Map) => setMap(mapInstance)}
         // onUnmount={onUnmount}
         >
             <Marker
