@@ -28,7 +28,7 @@ const MapForm = (props: MapFormProps) => {
 
     return (
         <Container className={styles.mapForm}>
-            <form className='formWrapper bg-none' onSubmit={formik.handleSubmit}>
+            <form className='formWrapper bg-none d-flex' onSubmit={formik.handleSubmit}>
                 <Autocomplete>
                     <div className='d-flex flex-column'>
                         <input
@@ -59,7 +59,7 @@ const MapForm = (props: MapFormProps) => {
                 </Autocomplete>
                 <div className='d-flex flex-column'>
                     <button type='submit'>Start</button>
-                    <div className='mt-1 errorWrapper'>
+                    <div className='mt-1 errorWrapper  d-none d-sm-block'>
                     </div>
                 </div>
             </form>

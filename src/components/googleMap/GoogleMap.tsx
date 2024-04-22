@@ -1,7 +1,9 @@
-import { GoogleMap, Marker } from '@react-google-maps/api';
+import { GoogleMap, Marker, DirectionsRenderer } from '@react-google-maps/api';
 import { googleMapCenter } from '../../utils/constants';
 import { PlacesDataInterface } from '../../pages/home/Home';
 import { MapFormProps } from '../mapForm/MapForm';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 export interface MapProps extends MapFormProps {
     map: google.maps.Map | null;
@@ -11,8 +13,9 @@ export interface MapProps extends MapFormProps {
 
 const GoogleMapComponent = (props: MapProps) => {
     const { map, setMap } = props;
-    console.log(map)
+    const { googleDirectionServiceResults } = useSelector((state: RootState) => state.googleDirectionServicesReducers)
 
+    console.log(map)
     // const styles
     const containerStyle = {
         width: "100%",
@@ -42,6 +45,7 @@ const GoogleMapComponent = (props: MapProps) => {
                 position={googleMapCenter}
                 icon={icon}
             />
+            {googleDirectionServiceResults && <DirectionsRenderer directions={googleDirectionServiceResults} />}
         </GoogleMap>
     )
 

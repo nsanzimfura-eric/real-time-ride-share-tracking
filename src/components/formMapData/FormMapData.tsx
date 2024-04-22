@@ -3,18 +3,21 @@ import { Container } from 'react-bootstrap';
 import styles from './formMapaData.module.scss';
 import { MapProps } from '../googleMap/GoogleMap';
 import { googleMapCenter, initialGoogleMapState } from '../../utils/constants';
+import { useDispatch } from 'react-redux';
+import { setGoogleDirectionServices } from './GoogleMapDataSlice';
 
 
 const FormMapData = (props: MapProps) => {
     const { map, placesData, setPlacesData } = props;
-    const [googleDirection, setGoogleDirection] = useState<google.maps.DirectionsResult | null>(null);
     const [duration, setDuration] = useState<string>('');
     const [distance, setDistance] = useState<string>('');
+
+    const dispatch = useDispatch();
 
     const handleSetMapBack = () => {
         setPlacesData(initialGoogleMapState);
         map?.panTo(googleMapCenter);
-        setGoogleDirection(null);
+        dispatch(setGoogleDirectionServices(null));
         setDuration('');
         setDistance('');
     }
@@ -28,7 +31,7 @@ const FormMapData = (props: MapProps) => {
             destination,
             travelMode: google.maps.TravelMode.DRIVING,
         });
-        setGoogleDirection(results);
+        dispatch(setGoogleDirectionServices(results));
         setDuration(results?.routes[0]?.legs[0]?.duration?.text || '');
         setDistance(results?.routes[0]?.legs[0]?.distance?.text || '');
     }
@@ -38,7 +41,7 @@ const FormMapData = (props: MapProps) => {
         //eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    console.log(duration, distance, googleDirection, 'test')
+    console.log(duration, distance, 'test')
     return (
         <Container className={styles.formMapData}>
             <div className='wrapperData d-flex flex-column'>
@@ -49,8 +52,8 @@ const FormMapData = (props: MapProps) => {
                 </div>
                 <span > Next stop: Kakiru</span>
                 <div className='d-flex'>
-                    <span > Distance: {distance}KM</span>
-                    <span > Time: {duration}minutes</span>
+                    <span > Distance: {distance}</span>
+                    <span > Time: {duration}</span>
                 </div>
                 <div className='d-flex justify-content-center align-items-center w-100 mt-3'><button className='btn' onClick={handleSetMapBack}>Clear</button></div>
             </div>
