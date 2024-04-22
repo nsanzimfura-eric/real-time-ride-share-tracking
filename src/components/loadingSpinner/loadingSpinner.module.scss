@@ -1,0 +1,14 @@
+@import '../../styles/mixins.scss';
+@import '../../styles/variables.scss';
+
+.loadingSpinner {
+    :global {
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+}
