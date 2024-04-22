@@ -1,12 +1,12 @@
 import { GoogleMap, Marker } from '@react-google-maps/api';
 import { googleMapCenter } from '../../utils/constants';
 import { PlacesDataInterface } from '../../pages/home/Home';
+import { MapFormProps } from '../mapForm/MapForm';
 
-export interface MapProps {
+export interface MapProps extends MapFormProps {
     map: google.maps.Map | null;
     setMap: React.Dispatch<React.SetStateAction<google.maps.Map | null>>;
-    setPlacesData: React.Dispatch<React.SetStateAction<PlacesDataInterface>>;
-    placesData?: PlacesDataInterface;
+    placesData: PlacesDataInterface;
 }
 
 const GoogleMapComponent = (props: MapProps) => {

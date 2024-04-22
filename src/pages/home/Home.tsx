@@ -5,6 +5,7 @@ import MapForm from '../../components/mapForm/MapForm';
 import styles from './home.module.scss';
 import LoadingSpinner from '../../components/loadingSpinner/LoadingSpinner';
 import { useJsApiLoader } from '@react-google-maps/api';
+import { initialGoogleMapState } from '../../utils/constants';
 
 
 export interface PlacesDataInterface {
@@ -12,13 +13,10 @@ export interface PlacesDataInterface {
     destination: string;
 }
 
-export const initialMapState = {
-    origin: "",
-    destination: ""
-}
+
 const Home = () => {
     const [map, setMap] = useState<google.maps.Map | null>(null);
-    const [placesData, setPlacesData] = useState<PlacesDataInterface>(initialMapState);
+    const [placesData, setPlacesData] = useState<PlacesDataInterface>(initialGoogleMapState);
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -34,9 +32,9 @@ const Home = () => {
         <div className={styles.home}>
             <div className='googleMapWrapper position-absolute bg-none'>
                 {/* if we have new places data we hide form and show map data */}
-                {!placesData.destination && !placesData.origin ?
-                    <MapForm map={map} setMap={setMap} setPlacesData={setPlacesData} /> :
-                    <FormMapData map={map} setMap={setMap} setPlacesData={setPlacesData} placesData={placesData} />
+                {placesData.destination && placesData.origin ?
+                    <FormMapData map={map} setMap={setMap} setPlacesData={setPlacesData} placesData={placesData} /> :
+                    <MapForm setPlacesData={setPlacesData} />
                 }
                 <GoogleMapComponent map={map} setMap={setMap} setPlacesData={setPlacesData} placesData={placesData} />
             </div>

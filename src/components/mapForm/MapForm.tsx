@@ -1,11 +1,16 @@
 import { Container } from 'react-bootstrap';
 import styles from './mapForm.module.scss';
 import { Autocomplete } from '@react-google-maps/api';
-import { MapProps } from '../googleMap/GoogleMap';
 import { useFormik } from 'formik';
 import { initialValues, validationSchema } from './validationSchema';
+import { PlacesDataInterface } from '../../pages/home/Home';
 
-const MapForm = (props: MapProps) => {
+
+export interface MapFormProps {
+    setPlacesData: React.Dispatch<React.SetStateAction<PlacesDataInterface>>;
+}
+
+const MapForm = (props: MapFormProps) => {
     const { setPlacesData } = props;
 
     const formik = useFormik({
