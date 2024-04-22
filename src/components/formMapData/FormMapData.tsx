@@ -61,7 +61,9 @@ const FormMapData = (props: GoogleMapsDataProps) => {
                     <span > Distance: {distance}</span>
                     <span > Time: {duration}</span>
                 </div>
-                <div className='d-flex justify-content-center align-items-center w-100 mt-3'><button className='btn' onClick={handleSetMapBack}>Clear</button></div>
+                <div className='d-flex justify-content-center align-items-center w-100 mt-3'>
+                    <button className='btn' onClick={handleSetMapBack}>Clear</button>
+                </div>
             </div>
         </Container>
     );

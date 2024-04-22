@@ -36,7 +36,7 @@ const Home = () => {
                     <FormMapData map={map} setPlacesData={setPlacesData} placesData={placesData} /> :
                     <MapForm setPlacesData={setPlacesData} />
                 }
-                <GoogleMapComponent setMap={setMap} />
+                <GoogleMapComponent setMap={setMap} placesData={placesData} />
             </div>
         </div>
     )
