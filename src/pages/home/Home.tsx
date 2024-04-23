@@ -5,18 +5,13 @@ import MapForm from '../../components/mapForm/MapForm';
 import styles from './home.module.scss';
 import LoadingSpinner from '../../components/loadingSpinner/LoadingSpinner';
 import { useJsApiLoader } from '@react-google-maps/api';
-import { initialValues } from '../../components/mapForm/validationSchema';
-
-
-export interface PlacesDataInterface {
-    origin: string;
-    destination: string;
-}
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 
 const Home = () => {
     const [map, setMap] = useState<google.maps.Map | null>(null);
-    const [placesData, setPlacesData] = useState<PlacesDataInterface>(initialValues);
+    const { googleDirectionServiceResults } = useSelector((state: RootState) => state.googleDirectionServicesReducers)
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
@@ -32,11 +27,11 @@ const Home = () => {
         <div className={styles.home}>
             <div className='googleMapWrapper position-absolute bg-none'>
                 {/* if we have new places data we hide form and show Google map data */}
-                {placesData.destination && placesData.origin ?
-                    <FormMapData map={map} setPlacesData={setPlacesData} placesData={placesData} /> :
-                    <MapForm setPlacesData={setPlacesData} />
+                {googleDirectionServiceResults ?
+                    <FormMapData map={map} /> :
+                    <MapForm />
                 }
-                <GoogleMapComponent setMap={setMap} placesData={placesData} />
+                <GoogleMapComponent setMap={setMap} />
             </div>
         </div>
     )

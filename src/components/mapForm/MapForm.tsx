@@ -3,24 +3,31 @@ import styles from './mapForm.module.scss';
 import { Autocomplete } from '@react-google-maps/api';
 import { useFormik } from 'formik';
 import { initialValues, validationSchema } from './validationSchema';
-import { PlacesDataInterface } from '../../pages/home/Home';
+import { setGoogleDirectionServices } from '../formMapData/GoogleMapDataSlice';
+import { useDispatch } from 'react-redux';
 
 
-export interface MapFormProps {
-    setPlacesData: React.Dispatch<React.SetStateAction<PlacesDataInterface>>;
-}
 
-const MapForm = (props: MapFormProps) => {
-    const { setPlacesData } = props;
+const MapForm = () => {
+    const dispatch = useDispatch();
+
+    const calculateDistance = async (origin: string, destination: string): Promise<void> => {
+        const directionsService = new google.maps.DirectionsService();
+        const results = await directionsService.route({
+            origin,
+            destination,
+            travelMode: google.maps.TravelMode.DRIVING,
+        });
+        dispatch(setGoogleDirectionServices(JSON.stringify(results)));
+    }
+
 
     const formik = useFormik({
         initialValues,
         validationSchema,
         onSubmit: async (values) => {
-            setPlacesData({
-                origin: values.origin,
-                destination: values.destination,
-            })
+            const { origin, destination } = values;
+            await calculateDistance(origin, destination);
         },
     });
 
