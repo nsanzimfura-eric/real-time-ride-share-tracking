@@ -52,7 +52,7 @@ const GoogleMapComponent = (props: MapProps) => {
         return path;
     }
 
-    // start moviingwith the vehicle
+    // start moving with the vehicle
     useEffect(() => {
         if (driverSpeed && isDriving && googleDirectionServiceResults) {
             const paths = extractPathFromDirections(googleDirectionServiceResults);
@@ -67,6 +67,7 @@ const GoogleMapComponent = (props: MapProps) => {
                     const newPos = paths[step];
                     setMarkerPosition(newPos);
                     const closestStop = findClosestStop(newPos, kigaliKimironkoBusStops);
+                    console.log(closestStop, 'closestStop')
                     if (closestStop) setCurrentStation(closestStop);
                     step++;
                 } else {
@@ -76,7 +77,7 @@ const GoogleMapComponent = (props: MapProps) => {
             const intervalId = setInterval(moveMarker, intervalTime);
             return () => clearInterval(intervalId);
         }
-
+        //eslint-disable-next-line  react-hooks/exhaustive-deps
     }, [isDriving, driverSpeed]);
 
     // google map  icons
@@ -93,7 +94,13 @@ const GoogleMapComponent = (props: MapProps) => {
     // watch next bus stop
     useEffect(() => {
         dispatch(setCurrentStop(currentStation));
+        //eslint-disable-next-line  react-hooks/exhaustive-deps
     }, [currentStation]);
+
+    const renderGogosKimironkoBusStops = () => kigaliKimironkoBusStops.map((stopStation, index) => (
+        <MarkerF key={index} position={stopStation.position} label={stopStation.name} />
+    ));
+
 
     return (
         <GoogleMap
@@ -102,6 +109,8 @@ const GoogleMapComponent = (props: MapProps) => {
             zoom={15}
             onLoad={(mapInstance: google.maps.Map) => setMap(mapInstance)}
         >
+            {/* all bus stops are fixed by location */}
+            {renderGogosKimironkoBusStops()}
             <MarkerF
                 position={googleDirectionServiceResults ? markerPosition : kigaliKimironkoBusStops[0].position}
                 label={googleDirectionServiceResults && currentStation ? currentStation.name : ""}
@@ -110,7 +119,6 @@ const GoogleMapComponent = (props: MapProps) => {
             {googleDirectionServiceResults && <DirectionsRenderer directions={googleDirectionServiceResults} />}
         </GoogleMap>
     )
-
 }
 
 export default GoogleMapComponent

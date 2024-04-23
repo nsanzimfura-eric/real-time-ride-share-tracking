@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import { initialValues, validationSchema } from './validationSchema';
 import { setGoogleDirectionServices } from '../formMapData/GoogleMapDataSlice';
 import { useDispatch } from 'react-redux';
+import { kigaliKimironkoBusStops } from '../../utils/routeStopsData';
 
 
 
@@ -13,9 +14,15 @@ const MapForm = () => {
 
     const calculateDistance = async (origin: string, destination: string): Promise<void> => {
         const directionsService = new google.maps.DirectionsService();
+        const waypoints = kigaliKimironkoBusStops.slice(1, -1).map(stop => ({
+            location: stop.position,
+            stopover: true,
+        }));
+
         const results = await directionsService.route({
             origin,
             destination,
+            waypoints,
             travelMode: google.maps.TravelMode.DRIVING,
         });
         dispatch(setGoogleDirectionServices(JSON.stringify(results)));

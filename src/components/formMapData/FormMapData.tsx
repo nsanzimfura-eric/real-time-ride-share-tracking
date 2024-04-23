@@ -45,7 +45,7 @@ const FormMapData = (props: GoogleMapsDataProps) => {
         dispatch(setDriverSpeed(speed));//global vehicle speed
         dispatch(setTotalDuration(Number(timeUsed) * 60)); //time taken in seconds
         dispatch(setTotalDistance(Number(distanceTravelled) * 1000)); //over whole distance in meters
-        dispatch(setIsDriving(true));// start moviing permition
+        dispatch(setIsDriving(true));// start moving permission
     }
 
     useEffect(() => {
@@ -58,9 +58,9 @@ const FormMapData = (props: GoogleMapsDataProps) => {
             }
             setPlaces(place);
         } else {
-            handleSetMapBack()//clean map and back to the center
+            handleSetMapBack()
         }
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [googleDirectionServiceResults])
 
     // find next stop array from the list;
