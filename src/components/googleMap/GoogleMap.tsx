@@ -67,7 +67,6 @@ const GoogleMapComponent = (props: MapProps) => {
                     const newPos = paths[step];
                     setMarkerPosition(newPos);
                     const closestStop = findClosestStop(newPos, kigaliKimironkoBusStops);
-                    console.log(closestStop, 'closestStop')
                     if (closestStop) setCurrentStation(closestStop);
                     step++;
                 } else {

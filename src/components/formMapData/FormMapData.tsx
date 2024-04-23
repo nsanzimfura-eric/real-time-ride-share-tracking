@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setGoogleDirectionServices, setDriverSpeed, setIsDriving, setTotalDuration, setTotalDistance, setCurrentStop } from './GoogleMapDataSlice';
 import { kigaliKimironkoBusStops } from '../../utils/routeStopsData';
 import { RootState } from '../../redux/store';
-import { calcuateMinutesFromTimeString } from '../../utils/calcuateMinutesFromTimeString';
-import { calculateMetersFromStringDistance } from '../../utils/calculateMetersFromStringDistance';
+import { calculateReadableTimeFromSeconds } from '../../utils/calculateReadableTimeFromSeconds';
 
 export interface GoogleMapsDataProps {
     map: google.maps.Map | null;
@@ -16,8 +15,8 @@ const initialOrigin = { origin: '', destination: '' };
 
 const FormMapData = (props: GoogleMapsDataProps) => {
     const { map } = props;
-    const [duration, setDuration] = useState<string>('');
-    const [distance, setDistance] = useState<string>('');
+    const [duration, setDuration] = useState<number>(0);
+    const [distance, setDistance] = useState<number>(0);
     const [places, setPlaces] = useState<{ origin: string, destination: string }>(initialOrigin);
 
     const { googleDirectionServiceResults, currentStop, isDriving } = useSelector((state: RootState) => state.googleDirectionServicesReducers)
@@ -26,8 +25,8 @@ const FormMapData = (props: GoogleMapsDataProps) => {
     const handleSetMapBack = () => {
         map?.panTo(kigaliKimironkoBusStops[0].position);
         dispatch(setGoogleDirectionServices(null));
-        setDuration('');
-        setDistance('');
+        setDuration(0);
+        setDistance(0);
         setPlaces(initialOrigin);
         dispatch(setIsDriving(false));
         dispatch(setDriverSpeed(0));
@@ -37,24 +36,29 @@ const FormMapData = (props: GoogleMapsDataProps) => {
     }
 
     const startDriving = () => {
-        //calculate speed
-        const distanceTravelled = calculateMetersFromStringDistance(distance); /// in m
-        const timeUsed = calcuateMinutesFromTimeString(duration); // in minutes
         // speed is equal to distance over time
-        const speed = distanceTravelled / timeUsed ? timeUsed * 60 : 1 // in m/s
+        const speed = distance / duration ? duration * 60 : 1 // in m/s
         dispatch(setDriverSpeed(speed));//global vehicle speed
-        dispatch(setTotalDuration(Number(timeUsed) * 60)); //time taken in seconds
-        dispatch(setTotalDistance(Number(distanceTravelled) * 1000)); //over whole distance in meters
+        dispatch(setTotalDuration(duration * 60)); //time taken in seconds
+        dispatch(setTotalDistance(distance));
         dispatch(setIsDriving(true));// start moving permission
     }
 
     useEffect(() => {
         if (googleDirectionServiceResults) {
-            setDuration(googleDirectionServiceResults?.routes[0]?.legs[0]?.duration?.text || '');
-            setDistance(googleDirectionServiceResults?.routes[0]?.legs[0]?.distance?.text || '');
+            const legs = googleDirectionServiceResults?.routes[0]?.legs;
+            let totalDistance = 0;
+            let totalDuration = 0;
+            legs.forEach(leg => {
+                totalDistance += leg?.distance?.value || 0;
+                totalDuration += leg?.duration?.value || 0;
+            });
+            setDistance(totalDistance);
+            setDuration(totalDuration);
+
             const place = {
-                origin: googleDirectionServiceResults?.routes[0]?.legs[0]?.start_address || '',
-                destination: googleDirectionServiceResults?.routes[0]?.legs[0]?.end_address || ''
+                origin: legs[0]?.start_address || '',
+                destination: legs[legs?.length - 1]?.end_address || ''
             }
             setPlaces(place);
         } else {
@@ -76,8 +80,8 @@ const FormMapData = (props: GoogleMapsDataProps) => {
                 </div>
                 <span > Next stop: {kigaliKimironkoBusStops[nextStopIndex + 1]?.name || currentStop.name}</span>
                 <div className='d-flex'>
-                    <span > Distance: {distance}</span>
-                    <span > Time: {duration}</span>
+                    <span > Distance: {distance > 1000 ? `${distance / 1000} km` : `${distance} m`}</span>
+                    <span > Time: {calculateReadableTimeFromSeconds(duration)}</span>
                 </div>
                 <div className='d-flex justify-content-between align-items-center w-100 mt-3 actions'>
                     <button className='btn' onClick={handleSetMapBack}>cancel</button>

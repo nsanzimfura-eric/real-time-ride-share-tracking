@@ -8,7 +8,6 @@ import { useJsApiLoader } from '@react-google-maps/api';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 
-
 const Home = () => {
     const [map, setMap] = useState<google.maps.Map | null>(null);
     const { googleDirectionServiceResults } = useSelector((state: RootState) => state.googleDirectionServicesReducers)
@@ -21,7 +20,6 @@ const Home = () => {
 
     //show loading spinner
     if (!isLoaded) return <LoadingSpinner />
-
 
     return isLoaded && (
         <div className={styles.home}>
@@ -36,4 +34,5 @@ const Home = () => {
         </div>
     )
 }
+
 export default Home;
