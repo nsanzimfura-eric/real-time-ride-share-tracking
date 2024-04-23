@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import styles from './formMapaData.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { setGoogleDirectionServices, setDriverSpeed, setIsDriving } from './GoogleMapDataSlice';
+import { setGoogleDirectionServices, setDriverSpeed, setIsDriving, setTotalDuration, setTotalDistance, setCurrentStop } from './GoogleMapDataSlice';
 import { kigaliKimironkoBusStops } from '../../utils/routeStopsData';
 import { RootState } from '../../redux/store';
+import { calcuateMinutesFromTimeString } from '../../utils/calcuateMinutesFromTimeString';
+import { calculateMetersFromStringDistance } from '../../utils/calculateMetersFromStringDistance';
 
 export interface GoogleMapsDataProps {
     map: google.maps.Map | null;
@@ -18,7 +20,7 @@ const FormMapData = (props: GoogleMapsDataProps) => {
     const [distance, setDistance] = useState<string>('');
     const [places, setPlaces] = useState<{ origin: string, destination: string }>(initialOrigin);
 
-    const { googleDirectionServiceResults } = useSelector((state: RootState) => state.googleDirectionServicesReducers)
+    const { googleDirectionServiceResults, currentStop } = useSelector((state: RootState) => state.googleDirectionServicesReducers)
     const dispatch = useDispatch();
 
     const handleSetMapBack = () => {
@@ -29,15 +31,20 @@ const FormMapData = (props: GoogleMapsDataProps) => {
         setPlaces(initialOrigin);
         dispatch(setIsDriving(false));
         dispatch(setDriverSpeed(0));
+        dispatch(setTotalDuration(0));
+        dispatch(setTotalDistance(0));
+        dispatch(setCurrentStop(kigaliKimironkoBusStops[1]));
     }
 
     const startDriving = () => {
         //calculate speed
-        const distanceTravelled = distance.split(' ')?.[0] || 0; /// in km
-        const timeUsed = duration.split(' ')?.[0] || 1; // in minutes
+        const distanceTravelled = calculateMetersFromStringDistance(distance); /// in m
+        const timeUsed = calcuateMinutesFromTimeString(duration); // in minutes
         // speed is equal to distance over time
-        const speed = (Number(distanceTravelled) * 1000) / (Number(timeUsed) * 60) // in m/s
+        const speed = distanceTravelled / timeUsed ? timeUsed * 60 : 1 // in m/s
         dispatch(setDriverSpeed(speed));//global vehicle speed
+        dispatch(setTotalDuration(Number(timeUsed) * 60)); //time taken in seconds
+        dispatch(setTotalDistance(Number(distanceTravelled) * 1000)); //over whole distance in meters
         dispatch(setIsDriving(true));// start moviing permition
     }
 
@@ -56,6 +63,8 @@ const FormMapData = (props: GoogleMapsDataProps) => {
 
     }, [googleDirectionServiceResults])
 
+    // find next stop array from the list;
+    const nextStopIndex = kigaliKimironkoBusStops.indexOf(currentStop);
 
     return (
         <Container className={styles.formMapData}>
@@ -65,7 +74,7 @@ const FormMapData = (props: GoogleMapsDataProps) => {
                     <span> - </span>
                     <h3>{places?.destination}</h3>
                 </div>
-                <span > Next stop: Kakiru</span>
+                <span > Next stop: {kigaliKimironkoBusStops[nextStopIndex + 1]?.name || currentStop.name}</span>
                 <div className='d-flex'>
                     <span > Distance: {distance}</span>
                     <span > Time: {duration}</span>

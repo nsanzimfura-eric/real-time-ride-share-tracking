@@ -1,28 +1,45 @@
 import { GoogleMap, MarkerF, DirectionsRenderer } from '@react-google-maps/api';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { googleMapMarkerIcon } from '../../utils/googleMapMarkerIcon';
-import { kigaliKimironkoBusStops } from '../../utils/routeStopsData';
+import { StopInterface, kigaliKimironkoBusStops } from '../../utils/routeStopsData';
 import { useEffect, useState } from 'react';
+import { setCurrentStop } from '../formMapData/GoogleMapDataSlice';
 export interface MapProps {
     setMap: React.Dispatch<React.SetStateAction<google.maps.Map | null>>;
 }
 
+const containerStyle = {
+    width: "100%",
+    height: "100%",
+    flexGrow: "1"
+}
+
 const GoogleMapComponent = (props: MapProps) => {
     const { setMap } = props;
-    const { googleDirectionServiceResults, isDriving, driverSpeed } = useSelector((state: RootState) => state.googleDirectionServicesReducers);
+    const { googleDirectionServiceResults, isDriving, driverSpeed, totalDuration } = useSelector((state: RootState) => state.googleDirectionServicesReducers);
     const [markerPosition, setMarkerPosition] = useState<google.maps.LatLngLiteral | google.maps.LatLng>(kigaliKimironkoBusStops[0].position);
+    const [currentStation, setCurrentStation] = useState<StopInterface>(kigaliKimironkoBusStops[0]);
+    const dispatch = useDispatch()
 
+    const findClosestStop = (currentPos: google.maps.LatLngLiteral | google.maps.LatLng, stops: StopInterface[]): StopInterface | undefined => {
+        let closestStop = stops[0];
+        let minDistance = google.maps.geometry.spherical.computeDistanceBetween(
+            new google.maps.LatLng(currentPos),
+            new google.maps.LatLng(stops[0].position)
+        );
 
-    const containerStyle = {
-        width: "100%",
-        height: "100%",
-        flexGrow: "1"
-    }
-
-    // const renderGogosKimironkoBusStops = () => kigaliKimironkoBusStops.map((stopStation, index) => (
-    //     <MarkerF key={index} position={stopStation.position} label={stopStation.name} />
-    // ));
+        for (const stop of stops) {
+            const distance = google.maps.geometry.spherical.computeDistanceBetween(
+                new google.maps.LatLng(currentPos),
+                new google.maps.LatLng(stop.position)
+            );
+            if (distance < minDistance) {
+                closestStop = stop;
+                minDistance = distance;
+            }
+        }
+        return closestStop;
+    };
 
     const extractPathFromDirections = (directionsResult: google.maps.DirectionsResult): google.maps.LatLng[] => {
         let path: google.maps.LatLng[] = [];
@@ -39,20 +56,44 @@ const GoogleMapComponent = (props: MapProps) => {
     useEffect(() => {
         if (driverSpeed && isDriving && googleDirectionServiceResults) {
             const paths = extractPathFromDirections(googleDirectionServiceResults);
+            const distancePerStep = driverSpeed * (totalDuration / paths.length);// distance travelled in one step
+
             let step = 0;
+            // const intervalTime = totalDuration / paths.length;
+            const intervalTime = (paths.length / driverSpeed) * distancePerStep;
+
             const moveMarker = () => {
                 if (step < paths.length) {
-                    setMarkerPosition(paths[step]);
-                    step += 1;
+                    const newPos = paths[step];
+                    setMarkerPosition(newPos);
+                    const closestStop = findClosestStop(newPos, kigaliKimironkoBusStops);
+                    if (closestStop) setCurrentStation(closestStop);
+                    step++;
                 } else {
-                    clearInterval(intervalId); // Stop the interval when path ends
+                    clearInterval(intervalId);
                 }
             };
-            const intervalId = setInterval(moveMarker, 1000 / driverSpeed);
+            const intervalId = setInterval(moveMarker, intervalTime);
             return () => clearInterval(intervalId);
         }
 
     }, [isDriving, driverSpeed]);
+
+    // google map  icons
+    const googleMapMarkerIcon = {
+        path: "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z",
+        fillColor: "purple",
+        fillOpacity: 1.0,
+        strokeWeight: 1,
+        strokeColor: "red",
+        scale: 3,
+        anchor: new google.maps.Point(12, 24),
+    };
+
+    // watch next bus stop
+    useEffect(() => {
+        dispatch(setCurrentStop(currentStation));
+    }, [currentStation]);
 
     return (
         <GoogleMap
@@ -61,10 +102,9 @@ const GoogleMapComponent = (props: MapProps) => {
             zoom={15}
             onLoad={(mapInstance: google.maps.Map) => setMap(mapInstance)}
         >
-            {/* {renderGogosKimironkoBusStops()} */}
             <MarkerF
-                position={markerPosition || kigaliKimironkoBusStops[0].position}
-                label={kigaliKimironkoBusStops[0].name}
+                position={googleDirectionServiceResults ? markerPosition : kigaliKimironkoBusStops[0].position}
+                label={googleDirectionServiceResults ? currentStation.name : ""}
                 icon={googleMapMarkerIcon}
             />
             {googleDirectionServiceResults && <DirectionsRenderer directions={googleDirectionServiceResults} />}
