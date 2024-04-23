@@ -16,7 +16,7 @@ const containerStyle = {
 
 const GoogleMapComponent = (props: MapProps) => {
     const { setMap } = props;
-    const { googleDirectionServiceResults, isDriving, driverSpeed, totalDuration } = useSelector((state: RootState) => state.googleDirectionServicesReducers);
+    const { googleDirectionServiceResults, isDriving, driverSpeed } = useSelector((state: RootState) => state.googleDirectionServicesReducers);
     const [markerPosition, setMarkerPosition] = useState<google.maps.LatLngLiteral | google.maps.LatLng>(kigaliKimironkoBusStops[0].position);
     const [currentStation, setCurrentStation] = useState<StopInterface>(kigaliKimironkoBusStops[0]);
     const dispatch = useDispatch()
@@ -56,11 +56,10 @@ const GoogleMapComponent = (props: MapProps) => {
     useEffect(() => {
         if (driverSpeed && isDriving && googleDirectionServiceResults) {
             const paths = extractPathFromDirections(googleDirectionServiceResults);
-            const distancePerStep = driverSpeed * (totalDuration / paths.length);// distance travelled in one step
 
             let step = 0;
-            // const intervalTime = totalDuration / paths.length;
-            const intervalTime = (paths.length / driverSpeed) * distancePerStep;
+
+            const intervalTime = paths.length / driverSpeed; // this is jus average speed, it is not the real one
 
             const moveMarker = () => {
                 if (step < paths.length) {

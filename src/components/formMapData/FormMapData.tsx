@@ -37,9 +37,10 @@ const FormMapData = (props: GoogleMapsDataProps) => {
 
     const startDriving = () => {
         // speed is equal to distance over time
-        const speed = distance / duration ? duration * 60 : 1 // in m/s
+        const durationDivider = duration || 1; //in seconds
+        const speed = distance / durationDivider // in m/s
         dispatch(setDriverSpeed(speed));//global vehicle speed
-        dispatch(setTotalDuration(duration * 60)); //time taken in seconds
+        dispatch(setTotalDuration(duration)); //time taken in seconds
         dispatch(setTotalDistance(distance));
         dispatch(setIsDriving(true));// start moving permission
     }
@@ -49,7 +50,7 @@ const FormMapData = (props: GoogleMapsDataProps) => {
             const legs = googleDirectionServiceResults?.routes[0]?.legs;
             let totalDistance = 0;
             let totalDuration = 0;
-            legs.forEach(leg => {
+            legs.forEach((leg: google.maps.DirectionsLeg) => {
                 totalDistance += leg?.distance?.value || 0;
                 totalDuration += leg?.duration?.value || 0;
             });
