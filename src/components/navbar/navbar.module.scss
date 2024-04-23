@@ -27,10 +27,16 @@
     .link {
       @include p;
       color: $dark;
+      font-weight: 400 !important;
+      @include transition;
+
+      &:hover {
+        font-weight: 900 !important;
+      }
     }
 
-    .active {
-      font-weight: 900;
+    .activeLink {
+      font-weight: 900 !important;
     }
 
     //change color border for the humburger icon
@@ -43,6 +49,7 @@
     .navbar-toggler-icon {
       background-image: url("../../../public/icons/bars.svg");
     }
+
     .startUp {
       font-weight: 900;
       font-size: 1rem;

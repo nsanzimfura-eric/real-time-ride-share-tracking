@@ -22,7 +22,7 @@ const Navbar = () => {
                 <NavbarBootstrap.Collapse id="basic-navbar-nav mt-5 mt-sm-0" className='linksWrapper'>
                     <Nav className="ms-auto links d-flex">
                         {navigation.map((item) => (
-                            <Nav.Link key={item.name} href={item.href} className={item.current ? ' link active' : 'link'}>
+                            <Nav.Link key={item.name} href={item.href} className={item.current ? ' link activeLink' : 'link'}>
                                 {item.name}
                             </Nav.Link>
                         ))}
