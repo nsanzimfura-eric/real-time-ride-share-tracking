@@ -53,6 +53,20 @@
                     background-color: $error;
                 }
             }
+
+            .actions {
+                gap: 20px;
+
+                .btn-success {
+                    background-color: $success;
+                    border: none;
+                    outline: none;
+
+                    &:hover {
+                        background-color: darken($color: $success, $amount: 20);
+                    }
+                }
+            }
         }
     }
 

@@ -17,7 +17,7 @@ export interface MapProps {
 const GoogleMapComponent = (props: MapProps) => {
     const { setMap, placesData } = props;
     const { googleDirectionServiceResults } = useSelector((state: RootState) => state.googleDirectionServicesReducers)
-    const currentLocation = useCurrentLocation();
+    // const currentLocation = useCurrentLocation();
     const dispatch = useDispatch()
 
     const containerStyle = {
@@ -46,24 +46,24 @@ const GoogleMapComponent = (props: MapProps) => {
         });
     };
 
-    useEffect(() => {
-        if (currentLocation) {
-            getNextStopETA(currentLocation, kigaliKimironkoBusStops[0].position);
-        }
-    }, [currentLocation]);
+    // useEffect(() => {
+    //     if (currentLocation) {
+    //         getNextStopETA(currentLocation, kigaliKimironkoBusStops[0].position);
+    //     }
+    // }, [currentLocation]);
 
-
+    // console.log(currentLocation, 'currentLocation')
     return (
         <GoogleMap
             mapContainerStyle={containerStyle}
-            center={googleMapCenter}
+            center={kigaliKimironkoBusStops[0].position}
             zoom={15}
             onLoad={(mapInstance: google.maps.Map) => setMap(mapInstance)}
         // onUnmount={onUnmount}
         >
-            {renderGogosKimironkoBusStops()}
+            {/* {renderGogosKimironkoBusStops()} */}
             <MarkerF
-                position={placesData.destination && placesData.origin && currentLocation ? currentLocation : googleMapCenter}
+                position={kigaliKimironkoBusStops[0].position}
                 icon={googleMapMarkerIcon}
             />
             {googleDirectionServiceResults && <DirectionsRenderer directions={googleDirectionServiceResults} />}

@@ -5,7 +5,7 @@ import MapForm from '../../components/mapForm/MapForm';
 import styles from './home.module.scss';
 import LoadingSpinner from '../../components/loadingSpinner/LoadingSpinner';
 import { useJsApiLoader } from '@react-google-maps/api';
-import { initialGoogleMapState } from '../../utils/constants';
+import { initialValues } from '../../components/mapForm/validationSchema';
 
 
 export interface PlacesDataInterface {
@@ -16,7 +16,7 @@ export interface PlacesDataInterface {
 
 const Home = () => {
     const [map, setMap] = useState<google.maps.Map | null>(null);
-    const [placesData, setPlacesData] = useState<PlacesDataInterface>(initialGoogleMapState);
+    const [placesData, setPlacesData] = useState<PlacesDataInterface>(initialValues);
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',

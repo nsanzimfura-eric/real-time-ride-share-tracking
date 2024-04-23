@@ -34,6 +34,7 @@ const MapForm = (props: MapFormProps) => {
                             placeholder='Origin'
                             name='origin'
                             id='origin'
+                            value={formik.values.origin}
                             onChange={formik.handleChange}
                         />
                         <div className='mt-1 errorWrapper'>
@@ -48,6 +49,7 @@ const MapForm = (props: MapFormProps) => {
                             placeholder='Destination'
                             name='destination'
                             id='destination'
+                            value={formik.values.destination}
                             onChange={formik.handleChange}
                         />
                         <div className='mt-1 errorWrapper'>
@@ -56,7 +58,7 @@ const MapForm = (props: MapFormProps) => {
                     </div>
                 </Autocomplete>
                 <div className='d-flex flex-column'>
-                    <button type='submit'>Start</button>
+                    <button type='submit'>Calculate</button>
                     <div className='mt-1 errorWrapper  d-none d-sm-block'>
                     </div>
                 </div>

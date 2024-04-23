@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import styles from './formMapaData.module.scss';
-import { googleMapCenter, initialGoogleMapState } from '../../utils/constants';
 import { useDispatch } from 'react-redux';
 import { setGoogleDirectionServices } from './GoogleMapDataSlice';
 import { PlacesDataInterface } from '../../pages/home/Home';
 import { MapFormProps } from '../mapForm/MapForm';
+import { kigaliKimironkoBusStops } from '../../utils/routeStopsData';
+import { initialValues } from '../mapForm/validationSchema';
 
 
 export interface GoogleMapsDataProps extends MapFormProps {
@@ -21,11 +22,16 @@ const FormMapData = (props: GoogleMapsDataProps) => {
     const dispatch = useDispatch();
 
     const handleSetMapBack = () => {
-        setPlacesData(initialGoogleMapState);
-        map?.panTo(googleMapCenter);
+        setPlacesData(initialValues);
+        map?.panTo(kigaliKimironkoBusStops[0].position);
         dispatch(setGoogleDirectionServices(null));
         setDuration('');
         setDistance('');
+    }
+
+    const startDriving = () => {
+        alert('StartDriving')
+
     }
 
     const calculateDistance = async (): Promise<void> => {
@@ -61,8 +67,9 @@ const FormMapData = (props: GoogleMapsDataProps) => {
                     <span > Distance: {distance}</span>
                     <span > Time: {duration}</span>
                 </div>
-                <div className='d-flex justify-content-center align-items-center w-100 mt-3'>
-                    <button className='btn' onClick={handleSetMapBack}>Clear</button>
+                <div className='d-flex justify-content-between align-items-center w-100 mt-3 actions'>
+                    <button className='btn' onClick={handleSetMapBack}>cancel</button>
+                    <button className='btn btn-success' onClick={startDriving}>Start Driving</button>
                 </div>
             </div>
         </Container>

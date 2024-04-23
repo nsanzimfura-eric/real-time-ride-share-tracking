@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import { kigaliKimironkoBusStops } from "../../utils/routeStopsData";
 
 export const validationSchema = Yup.object({
   destination: Yup.string().required("Enter Your Destination"),
@@ -6,6 +7,6 @@ export const validationSchema = Yup.object({
 });
 
 export const initialValues = {
-    destination: "",
-    origin: "",
+    destination: kigaliKimironkoBusStops[0].name,
+    origin: kigaliKimironkoBusStops[kigaliKimironkoBusStops.length-1].name,
 };
