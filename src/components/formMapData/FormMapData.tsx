@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import styles from './formMapaData.module.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { setGoogleDirectionServices } from './GoogleMapDataSlice';
+import { setGoogleDirectionServices, setDriverSpeed, setIsDriving } from './GoogleMapDataSlice';
 import { kigaliKimironkoBusStops } from '../../utils/routeStopsData';
 import { RootState } from '../../redux/store';
 
@@ -27,11 +27,18 @@ const FormMapData = (props: GoogleMapsDataProps) => {
         setDuration('');
         setDistance('');
         setPlaces(initialOrigin);
+        dispatch(setIsDriving(false));
+        dispatch(setDriverSpeed(0));
     }
 
     const startDriving = () => {
-        alert('StartDriving')
-
+        //calculate speed
+        const distanceTravelled = distance.split(' ')?.[0] || 0; /// in km
+        const timeUsed = duration.split(' ')?.[0] || 1; // in minutes
+        // speed is equal to distance over time
+        const speed = (Number(distanceTravelled) * 1000) / (Number(timeUsed) * 60) // in m/s
+        dispatch(setDriverSpeed(speed));//global vehicle speed
+        dispatch(setIsDriving(true));// start moviing permition
     }
 
     useEffect(() => {

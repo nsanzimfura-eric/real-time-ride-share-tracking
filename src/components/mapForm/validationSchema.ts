@@ -7,6 +7,6 @@ export const validationSchema = Yup.object({
 });
 
 export const initialValues = {
-    destination: kigaliKimironkoBusStops[0].name,
-    origin: kigaliKimironkoBusStops[kigaliKimironkoBusStops.length-1].name,
+  origin: kigaliKimironkoBusStops[0].name,//Nyabugogo
+  destination: kigaliKimironkoBusStops[kigaliKimironkoBusStops.length-1].name,//Kimironko
 };

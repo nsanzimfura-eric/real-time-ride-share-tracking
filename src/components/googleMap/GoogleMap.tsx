@@ -3,13 +3,14 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { googleMapMarkerIcon } from '../../utils/googleMapMarkerIcon';
 import { kigaliKimironkoBusStops } from '../../utils/routeStopsData';
+import { useEffect } from 'react';
 export interface MapProps {
     setMap: React.Dispatch<React.SetStateAction<google.maps.Map | null>>;
 }
 
 const GoogleMapComponent = (props: MapProps) => {
     const { setMap } = props;
-    const { googleDirectionServiceResults } = useSelector((state: RootState) => state.googleDirectionServicesReducers)
+    const { googleDirectionServiceResults, isDriving, driverSpeed } = useSelector((state: RootState) => state.googleDirectionServicesReducers)
 
     const containerStyle = {
         width: "100%",
@@ -17,9 +18,18 @@ const GoogleMapComponent = (props: MapProps) => {
         flexGrow: "1"
     }
 
-    const renderGogosKimironkoBusStops = () => kigaliKimironkoBusStops.map((stopStation, index) => (
-        <MarkerF key={index} position={stopStation.position} label={stopStation.name} />
-    ));
+    // const renderGogosKimironkoBusStops = () => kigaliKimironkoBusStops.map((stopStation, index) => (
+    //     <MarkerF key={index} position={stopStation.position} label={stopStation.name} />
+    // ));
+
+    // start moviingwith the vehicle
+    useEffect(() => {
+        if (driverSpeed && isDriving && googleDirectionServiceResults) {
+            // we start moving the MarkerF by speed in m/s
+
+        }
+
+    }, [isDriving, driverSpeed]);
 
     return (
         <GoogleMap
