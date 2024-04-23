@@ -20,7 +20,7 @@ const FormMapData = (props: GoogleMapsDataProps) => {
     const [distance, setDistance] = useState<string>('');
     const [places, setPlaces] = useState<{ origin: string, destination: string }>(initialOrigin);
 
-    const { googleDirectionServiceResults, currentStop } = useSelector((state: RootState) => state.googleDirectionServicesReducers)
+    const { googleDirectionServiceResults, currentStop, isDriving } = useSelector((state: RootState) => state.googleDirectionServicesReducers)
     const dispatch = useDispatch();
 
     const handleSetMapBack = () => {
@@ -81,7 +81,8 @@ const FormMapData = (props: GoogleMapsDataProps) => {
                 </div>
                 <div className='d-flex justify-content-between align-items-center w-100 mt-3 actions'>
                     <button className='btn' onClick={handleSetMapBack}>cancel</button>
-                    <button className='btn btn-success' onClick={startDriving}>Start Driving</button>
+                    {!isDriving && <button className='btn btn-success' onClick={startDriving}>Start Driving</button>}
+                    {isDriving && <button className='btn btn-success' >Driving by Car</button>}
                 </div>
             </div>
         </Container>

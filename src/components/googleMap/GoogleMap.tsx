@@ -104,7 +104,7 @@ const GoogleMapComponent = (props: MapProps) => {
         >
             <MarkerF
                 position={googleDirectionServiceResults ? markerPosition : kigaliKimironkoBusStops[0].position}
-                label={googleDirectionServiceResults ? currentStation.name : ""}
+                label={googleDirectionServiceResults && currentStation ? currentStation.name : ""}
                 icon={googleMapMarkerIcon}
             />
             {googleDirectionServiceResults && <DirectionsRenderer directions={googleDirectionServiceResults} />}
