@@ -80,10 +80,16 @@ const FormMapData = (props: GoogleMapsDataProps) => {
                     <h3>{places?.destination}</h3>
                 </div>
                 <span > Next stop: {kigaliKimironkoBusStops[nextStopIndex + 1]?.name || currentStop.name}</span>
-                <div className='d-flex'>
-                    <span > Distance: {distance > 1000 ? `${distance / 1000} km` : `${distance} m`}</span>
-                    <span > Time: {calculateReadableTimeFromSeconds(duration)}</span>
+                <div className='d-flex justify-content-between w-100'>
+                    <span >Total Distance: {distance > 1000 ? `${distance / 1000} km` : `${distance} m`}</span>
+                    <span >Total Time: {calculateReadableTimeFromSeconds(duration)}</span>
                 </div>
+                {isDriving &&
+                    <div className='d-flex justify-content-between w-100'>
+                        <small >Distance Left: {distance > 1000 ? `${distance / 1000} km` : `${distance} m`}</small>
+                        <small >Time Left: {calculateReadableTimeFromSeconds(duration)}</small>
+                    </div>
+                }
                 <div className='d-flex justify-content-between align-items-center w-100 mt-3 actions'>
                     <button className='btn' onClick={handleSetMapBack}>cancel</button>
                     {!isDriving && <button className='btn btn-success' onClick={startDriving}>Start Driving</button>}
