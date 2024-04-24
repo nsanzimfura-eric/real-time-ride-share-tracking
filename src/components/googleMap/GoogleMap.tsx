@@ -75,7 +75,7 @@ const GoogleMapComponent = (props: MapProps) => {
             const paths = extractPathFromDirections(googleDirectionServiceResults);
             let step = 0;
 
-            const intervalTime = 30;
+            const intervalTime = 1000;//assume const speed for all drivers
 
             const moveMarker = () => {
                 if (step < paths.length) {
