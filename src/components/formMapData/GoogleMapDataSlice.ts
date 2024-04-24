@@ -6,7 +6,6 @@ import {
 
 interface ActiveSideNavBarLink {
   googleDirectionServiceResults: google.maps.DirectionsResult | null;
-  driverSpeed: number;
   totalDuration: number;
   totalDistance: number;
   durationLeft: number;
@@ -17,7 +16,6 @@ interface ActiveSideNavBarLink {
 
 const initialState: ActiveSideNavBarLink = {
   googleDirectionServiceResults: null,
-  driverSpeed: 0,
   totalDuration: 0,
   totalDistance: 0,
   isDriving: false,
@@ -37,9 +35,6 @@ export const counterSlice = createSlice({
       state.googleDirectionServiceResults = action.payload
         ? JSON.parse(action.payload)
         : action.payload;
-    },
-    setDriverSpeed: (state, action: PayloadAction<number>) => {
-      state.driverSpeed = action.payload;
     },
     setIsDriving: (state, action: PayloadAction<boolean>) => {
       state.isDriving = action.payload;
@@ -64,7 +59,6 @@ export const counterSlice = createSlice({
 
 export const {
   setGoogleDirectionServices,
-  setDriverSpeed,
   setIsDriving,
   setTotalDuration,
   setTotalDistance,
